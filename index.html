@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spaced Review Planner</title>
+</head>
+<body>
+  <h1>Spaced Review Planner</h1>
+
+  <p>
+    Enter a start date to generate simple spaced repetition review dates.
+  </p>
+
+  <label for="startDate">Start date:</label>
+  <input type="date" id="startDate">
+
+  <button onclick="generateReviews()">Generate review dates</button>
+
+  <h2>Review schedule</h2>
+  <ul id="result"></ul>
+
+  <script>
+    function generateReviews() {
+      const start = document.getElementById("startDate").value;
+      const result = document.getElementById("result");
+
+      result.innerHTML = "";
+
+      if (!start) {
+        result.innerHTML = "<li>Please select a start date.</li>";
+        return;
+      }
+
+      const intervals = [1, 3, 6, 11, 18];
+      const startDate = new Date(start);
+
+      intervals.forEach(function(days) {
+        const reviewDate = new Date(startDate);
+        reviewDate.setDate(startDate.getDate() + days);
+
+        const item = document.createElement("li");
+        item.textContent =
+          "Review after " + days + " days: " +
+          reviewDate.toISOString().slice(0, 10);
+
+        result.appendChild(item);
+      });
+    }
+  </script>
+</body>
+</html>
